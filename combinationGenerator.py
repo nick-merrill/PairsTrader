@@ -9,8 +9,6 @@ def csv_to_single_array(csv_file, col_num):
     rows = []
     reader = csv.reader(csv_file)
     for row in reader:
-        print row
-        print "\n\n\n"
         try:
             rows.append(row[col_num])
         except IndexError:
