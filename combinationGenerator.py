@@ -23,7 +23,7 @@ except IndexError:
         print "You must pass the symbols' file name AND an outfile name."
         sys.exit()
 
-with open(symbols_file_name, "rb") as f:
+with open(symbols_file_name, "rU") as f:
     symbols = csv_to_single_array(f, 0)
     symbols.pop(0)
     f.close()
