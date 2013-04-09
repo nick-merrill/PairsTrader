@@ -48,8 +48,8 @@ def is_match(o1, o2, match_col):
 def merge_csv(name1, name2, mergable_col, match_col, \
               from_directory, to_directory, out_name):
     f1_name = make_filename(name1, from_directory)
-    f1_name = make_filename(name2, from_directory)
-    with open(f1_name+".csv", 'rb') as f1, open(f2_name+".csv", 'rb') as f2:
+    f2_name = make_filename(name2, from_directory)
+    with open(f1_name, 'rb') as f1, open(f2_name, 'rb') as f2:
         a1 = csv_to_array(f1)
         a2 = csv_to_array(f2)
 
@@ -70,7 +70,7 @@ def merge_csv(name1, name2, mergable_col, match_col, \
         f1.close()
         f2.close()
 
-    out_file = path.join(to_directory, out_name+".csv")
+    out_file = make_filename(out_name, to_directory)
     with open(out_file, "wb") as out:
         writer = csv.writer(out)
         writer.writerows(merged)
@@ -79,6 +79,15 @@ def merge_csv(name1, name2, mergable_col, match_col, \
 
 def merge_adjusted_prices(stock1, stock2, from_directory, to_directory):
     out_name = "%s-%s" % (stock1, stock2)
+    sys.stdout.write("Merging %s" % out_name)
+
+    # already exists?
+    try:
+        f = open(make_filename(out_name, to_directory), "rb")
+        f.close()
+        return
+    except:
+        pass
 
     # 6 is the adjusted close, and 0 is the date
     merge_csv(stock1, stock2, 6, 0, from_directory, to_directory, out_name)
