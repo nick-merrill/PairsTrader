@@ -3,6 +3,7 @@
 import sys
 import subprocess
 import csv
+from pairGenerator import *
 
 def csv_to_array(csv_file):
     rows = []
@@ -29,6 +30,6 @@ for row in combos:
     print stock1
     print stock2
 
-    subprocess.call(["/Users/nick_merrill/Developer/Trader/pairGenerate.py", stock1, stock2], shell=True)
+    pull_and_merge(stock1, stock2)
 
     print ""

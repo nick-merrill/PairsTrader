@@ -74,7 +74,7 @@ def merge_adjusted_prices(stock1, stock2, from_directory, to_directory):
 
 
 #-----------------------------------------------------------------------------
-
+'''
 if len(sys.argv) < 3:
     print "You must pass at least two stock symbols."
     sys.exit()
@@ -90,8 +90,12 @@ try:
         i += 1
 except IndexError:
     pass
+'''
 
-pull_data(stocks[0])
-pull_data(stocks[1])
+def pull_and_merge(stock1, stock2):
+    pull_data(stock1)
+    pull_data(stock2)
 
-merge_adjusted_prices(stocks[0], stocks[1], "data", "pairs")
+    merge_adjusted_prices(stock1, stock2, "data", "pairs")
+
+
