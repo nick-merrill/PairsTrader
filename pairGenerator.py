@@ -4,6 +4,7 @@ import sys
 from os import path
 import urllib
 import csv
+import re
 
 base_url = "http://ichart.finance.yahoo.com/table.csv?s="
 def make_url(ticker_symbol):
@@ -11,9 +12,20 @@ def make_url(ticker_symbol):
 
 output_path = "."
 def make_filename(ticker_symbol, directory="data"):
+    ticker_symbol = ticker_symbol.replace('/','-')
     return path.join(output_path, directory, ticker_symbol+".csv")
 
 def pull_data(ticker_symbol, directory="data"):
+    filename = make_filename(ticker_symbol, directory)
+    # already exists?
+    try:
+        f = open(filename, "rb")
+        f.close()
+        return
+    except:
+        pass
+
+    sys.stdout.write("Pulling %s" % ticker_symbol)
     try:
         urllib.urlretrieve(make_url(ticker_symbol), make_filename(ticker_symbol, directory))
     except urllib.ContentTooShortError as e:
@@ -35,8 +47,8 @@ def is_match(o1, o2, match_col):
 # match the "match condition" for each entry, e.g. "Date".
 def merge_csv(name1, name2, mergable_col, match_col, \
               from_directory, to_directory, out_name):
-    f1_name = path.join(from_directory, name1)
-    f2_name = path.join(from_directory, name2)
+    f1_name = make_filename(name1, from_directory)
+    f1_name = make_filename(name2, from_directory)
     with open(f1_name+".csv", 'rb') as f1, open(f2_name+".csv", 'rb') as f2:
         a1 = csv_to_array(f1)
         a2 = csv_to_array(f2)

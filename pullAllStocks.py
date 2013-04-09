@@ -4,6 +4,7 @@ import sys
 import subprocess
 import csv
 from pairGenerator import *
+from progress import *
 
 def csv_to_array(csv_file):
     rows = []
@@ -20,18 +21,21 @@ except IndexError:
         sys.exit()
 
 with open(symbols_file_name, "rU") as f:
-    combos = csv_to_array(f)
-    combos.pop(0)
+    stocks = csv_to_array(f)
+    stocks.pop(0)
     f.close()
 
-for row in combos:
-    stock1 = row[0]
-    stock2 = row[1]
-    print stock1
-    print stock2
+progress = Progress(len(stocks))
 
-    # TODO: if price information doesn't already exist, pull it
-    #pull_and_merge(stock1, stock2)
-    merge_adjusted_prices(stock1, stock2, "data", "pairs")
+i = 0
+errors = 0
+for row in stocks:
+    try:
+        stock = row[0]
+    except:
+        errors += 1
+    pull_data(stock)
+    i += 1
+    progress.update(i)
 
-    print ""
+print "Errors: %d" % errors
