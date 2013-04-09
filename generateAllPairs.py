@@ -33,7 +33,10 @@ for row in combos:
     stock1 = row[0]
     stock2 = row[1]
 
-    merge_adjusted_prices(stock1, stock2, "data", "pairs")
+    try:
+        merge_adjusted_prices(stock1, stock2, "data", "pairs")
+    except:
+        errors += 1
 
     i += 1
     progress.update(i)
