@@ -6,6 +6,9 @@ import csv
 from pairGenerator import *
 from progress import *
 
+import numpy
+import stattools
+
 i = 0
 errors = 0
 
@@ -22,12 +25,8 @@ print stock2
 pull_data(stock1)
 pull_data(stock2)
 
-pair_filename = merge_adjusted_prices(stock1, stock2, "data", "pairs")
+merge_adjusted_prices(stock1, stock2, "data", "pairs")
 
-with open(pair_filename, "rb") as f:
-    a = csv_to_array(f)
-    a.pop(0)
-    f.close()
 
-npa = numpy(a)
-result = statsmodels.tsa.stattools.adfuller(npa)
+
+i += 1

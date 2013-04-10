@@ -122,8 +122,9 @@ def merge_adjusted_prices(stock1, stock2, from_directory, to_directory):
     sys.stdout.write("Merging %s" % out_name)
 
     # already exists?
+    filename = make_filename(out_name, to_directory)
     try:
-        f = open(make_filename(out_name, to_directory), "rb")
+        f = open(filename, "rb")
         f.close()
         return
     except:
@@ -131,6 +132,8 @@ def merge_adjusted_prices(stock1, stock2, from_directory, to_directory):
 
     # 6 is the adjusted close, and 0 is the date
     date_merge_csv(stock1, stock2, 6, 0, from_directory, to_directory, out_name)
+
+    return filename
 
 
 
